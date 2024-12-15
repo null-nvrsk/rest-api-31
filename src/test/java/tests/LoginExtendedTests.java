@@ -1,5 +1,6 @@
 package tests;
 
+import io.qameta.allure.restassured.AllureRestAssured;
 import io.restassured.http.ContentType;
 import models.lombok.LoginBodyLombokModel;
 import models.lombok.LoginResponseLombokModel;
@@ -7,6 +8,8 @@ import models.pojo.LoginBodyPojoModel;
 import models.pojo.LoginResponsePojoModel;
 import org.junit.jupiter.api.Test;
 
+import static helpers.CustomAllureListener.withCustomTemplates;
+import static io.qameta.allure.Allure.step;
 import static io.restassured.RestAssured.given;
 import static io.restassured.http.ContentType.*;
 import static io.restassured.http.ContentType.JSON;
@@ -25,6 +28,8 @@ public class LoginExtendedTests {
 
         given()
                 .log().uri()
+                .log().headers()
+                .log().body()
                 .contentType(JSON)
                 .body(authData)
         .when()
@@ -44,6 +49,7 @@ public class LoginExtendedTests {
 
         LoginResponsePojoModel loginResponse = given()
                 .log().uri()
+                .log().headers()
                 .log().body()
                 .contentType(JSON)
                 .body(loginBody)
@@ -70,6 +76,7 @@ public class LoginExtendedTests {
 
         LoginResponseLombokModel loginResponse = given()
                 .log().uri()
+                .log().headers()
                 .log().body()
                 .contentType(JSON)
                 .body(loginBody)
@@ -87,55 +94,80 @@ public class LoginExtendedTests {
         // // AssertJ assert
         assertThat(loginResponse.getToken()).isEqualTo("QpwL5tke4Pnpja7X4");
     }
-//
-//    @Test
-//    public void loginWithAllureSuccessTest() {
-//        LoginBodyLombokModel loginBody = new LoginBodyLombokModel();
-//        loginBody.setEmail("eve.holt@reqres.in");
-//        loginBody.setPassword("cityslicka");
-//
-//        LoginResponseLombokModel loginResponse = given()
-//                .filter(new AllureRestAssured())
-//                .log().uri()
-//                .log().body()
-//                .contentType(JSON)
-//                .body(loginBody)
-//                .when()
-//                .post("https://reqres.in/api/login")
-//                .then()
-//                .log().status()
-//                .log().body()
-//                .statusCode(200)
-//                .extract().as(LoginResponseLombokModel.class);
-//
-//        assertThat(loginResponse.getToken()).isEqualTo("QpwL5tke4Pnpja7X4");
-//    }
-//
-//    @Test
-//    public void loginWithAllureStapsSuccessTest() {
-//        LoginBodyLombokModel loginBody = new LoginBodyLombokModel();
-//        loginBody.setEmail("eve.holt@reqres.in");
-//        loginBody.setPassword("cityslicka");
-//
-//        LoginResponseLombokModel loginResponse =
-//                step("Get authorization data", () -> given()
-//                        .filter(new AllureRestAssured())
-//                        .log().uri()
-//                        .log().body()
-//                        .contentType(JSON)
-//                        .body(loginBody)
-//                        .when()
-//                        .post("https://reqres.in/api/login")
-//                        .then()
-//                        .log().status()
-//                        .log().body()
-//                        .statusCode(200)
-//                        .extract().as(LoginResponseLombokModel.class));
-//
-//        step("Verify authorization response", () -> {
-//            assertThat(loginResponse.getToken()).isEqualTo("QpwL5tke4Pnpja7X4");
-//        });
-//    }
+
+    @Test
+    public void loginWithAllureSuccessTest() {
+        LoginBodyLombokModel loginBody = new LoginBodyLombokModel();
+        loginBody.setEmail("eve.holt@reqres.in");
+        loginBody.setPassword("cityslicka");
+
+        LoginResponseLombokModel loginResponse = given()
+                .filter(new AllureRestAssured())
+                .log().uri()
+                .log().headers()
+                .log().body()
+                .contentType(JSON)
+                .body(loginBody)
+            .when()
+                .post("https://reqres.in/api/login")
+            .then()
+                .log().status()
+                .log().body()
+                .statusCode(200)
+                .extract().as(LoginResponseLombokModel.class);
+
+        assertThat(loginResponse.getToken()).isEqualTo("QpwL5tke4Pnpja7X4");
+    }
+
+    @Test
+    public void loginWithCustomAllureSuccessTest() {
+        LoginBodyLombokModel loginBody = new LoginBodyLombokModel();
+        loginBody.setEmail("eve.holt@reqres.in");
+        loginBody.setPassword("cityslicka");
+
+        LoginResponseLombokModel loginResponse = given()
+                .filter(withCustomTemplates())
+                .log().uri()
+                .log().headers()
+                .log().body()
+                .contentType(JSON)
+                .body(loginBody)
+            .when()
+                .post("https://reqres.in/api/login")
+            .then()
+                .log().status()
+                .log().body()
+                .statusCode(200)
+                .extract().as(LoginResponseLombokModel.class);
+
+        assertThat(loginResponse.getToken()).isEqualTo("QpwL5tke4Pnpja7X4");
+    }
+
+    @Test
+    public void loginWithAllureStepsSuccessTest() {
+        LoginBodyLombokModel loginBody = new LoginBodyLombokModel();
+        loginBody.setEmail("eve.holt@reqres.in");
+        loginBody.setPassword("cityslicka");
+
+        LoginResponseLombokModel loginResponse =
+                step("Get authorization data", () -> given()
+                        .filter(withCustomTemplates())
+                        .log().uri()
+                        .log().headers()
+                        .log().body()
+                        .contentType(JSON)
+                        .body(loginBody)
+                    .when()
+                        .post("https://reqres.in/api/login")
+                    .then()
+                        .log().status()
+                        .log().body()
+                        .statusCode(200)
+                        .extract().as(LoginResponseLombokModel.class));
+
+        step("Verify authorization response", () ->
+            assertThat(loginResponse.getToken()).isEqualTo("QpwL5tke4Pnpja7X4"));
+    }
 //
 //    @Test
 //    public void loginWithSpecsSuccessTest() {

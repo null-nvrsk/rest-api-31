@@ -1,11 +1,27 @@
 plugins {
     id 'java'
+    id 'io.qameta.allure' version '2.12.0'
     id 'io.freefair.lombok' version '8.10'
 }
 
 def junitVersion = "5.11.3",
     restAssuredVersion = "5.5.0",
+    allureVersion = "2.29.0",
     slf4jVersion = "2.0.16"
+
+allure {
+    report {
+        version.set("$allureVersion")
+    }
+    adapter { // отвечает за появление папки build/allure-results
+        aspectjWeaver.set(true)
+        frameworks {
+            junit5 {
+                adapterVersion.set("$allureVersion")
+            }
+        }
+    }
+}
 
 repositories {
     mavenCentral()
@@ -19,6 +35,7 @@ dependencies {
     testImplementation (
             "org.junit.jupiter:junit-jupiter:$junitVersion",
             "io.rest-assured:rest-assured:$restAssuredVersion",
+            "io.qameta.allure:allure-rest-assured:$allureVersion",
             "com.fasterxml.jackson.core:jackson-databind:2.18.2",
             "org.assertj:assertj-core:3.26.3",
             "org.slf4j:slf4j-simple:$slf4jVersion"
