@@ -1,6 +1,8 @@
 package tests;
 
 import io.restassured.http.ContentType;
+import models.lombok.LoginBodyLombokModel;
+import models.lombok.LoginResponseLombokModel;
 import models.pojo.LoginBodyPojoModel;
 import models.pojo.LoginResponsePojoModel;
 import org.junit.jupiter.api.Test;
@@ -60,31 +62,31 @@ public class LoginExtendedTests {
         assertThat(loginResponse.getToken()).isEqualTo("QpwL5tke4Pnpja7X4");
     }
 
-//    @Test
-//    public void loginWithLombokModelSuccessTest() {
-//        LoginBodyLombokModel loginBody = new LoginBodyLombokModel();
-//        loginBody.setEmail("eve.holt@reqres.in");
-//        loginBody.setPassword("cityslicka");
-//
-//        LoginResponseLombokModel loginResponse = given()
-//                .log().uri()
-//                .log().body()
-//                .contentType(JSON)
-//                .body(loginBody)
-//                .when()
-//                .post("https://reqres.in/api/login")
-//                .then()
-//                .log().status()
-//                .log().body()
-//                .statusCode(200)
-//                .extract().as(LoginResponseLombokModel.class);
-//
-//        // JUnit5 assert
-//        // assertEquals("QpwL5tke4Pnpja7X4", loginResponse.getToken());
-//
-//        // // AssertJ assert
-//        assertThat(loginResponse.getToken()).isEqualTo("QpwL5tke4Pnpja7X4");
-//    }
+    @Test
+    public void loginWithLombokModelSuccessTest() {
+        LoginBodyLombokModel loginBody = new LoginBodyLombokModel();
+        loginBody.setEmail("eve.holt@reqres.in");
+        loginBody.setPassword("cityslicka");
+
+        LoginResponseLombokModel loginResponse = given()
+                .log().uri()
+                .log().body()
+                .contentType(JSON)
+                .body(loginBody)
+            .when()
+                .post("https://reqres.in/api/login")
+            .then()
+                .log().status()
+                .log().body()
+                .statusCode(200)
+                .extract().as(LoginResponseLombokModel.class);
+
+        // JUnit5 assert
+        // assertEquals("QpwL5tke4Pnpja7X4", loginResponse.getToken());
+
+        // // AssertJ assert
+        assertThat(loginResponse.getToken()).isEqualTo("QpwL5tke4Pnpja7X4");
+    }
 //
 //    @Test
 //    public void loginWithAllureSuccessTest() {
