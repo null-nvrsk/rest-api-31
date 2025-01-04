@@ -4,7 +4,9 @@ plugins {
     id 'io.freefair.lombok' version '8.10'
 }
 
-def junitVersion = "5.11.3",
+def selenideVersion = "7.5.1",
+    allureSelenideVersion = "2.29.0",
+    junitVersion = "5.11.3",
     restAssuredVersion = "5.5.0",
     allureVersion = "2.29.0",
     slf4jVersion = "2.0.16"
@@ -33,6 +35,8 @@ compileTestJava {
 
 dependencies {
     testImplementation (
+            "com.codeborne:selenide:$selenideVersion",
+            "io.qameta.allure:allure-selenide:$allureSelenideVersion",
             "org.junit.jupiter:junit-jupiter:$junitVersion",
             "io.rest-assured:rest-assured:$restAssuredVersion",
             "io.qameta.allure:allure-rest-assured:$allureVersion",
