@@ -15,18 +15,8 @@ import static com.codeborne.selenide.WebDriverRunner.getWebDriver;
 import static io.qameta.allure.Allure.step;
 import static io.restassured.RestAssured.given;
 
-public class LoginTests {
+public class LoginTests extends TestBase {
 
-    String login = "mxlamer@mail.ru";
-    String password = "123456";
-
-    @BeforeAll
-    public static void setup() {
-        Configuration.baseUrl = "https://demowebshop.tricentis.com";
-        RestAssured.baseURI = "https://demowebshop.tricentis.com";
-
-        SelenideLogger.addListener("allure", new AllureSelenide());
-    }
     @Test
     void loginWithUITest() {
         step("Open login page", () ->
