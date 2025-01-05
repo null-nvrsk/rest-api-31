@@ -1,23 +1,23 @@
-package tests;
+package in.reqres.tests;
 
 import io.qameta.allure.restassured.AllureRestAssured;
 import io.restassured.RestAssured;
-import models.lombok.LoginBodyLombokModel;
-import models.lombok.LoginResponseLombokModel;
-import models.lombok.LoginWithoutPasswordBodyLombokModel;
-import models.lombok.MissingPasswordResponseModel;
-import models.pojo.LoginBodyPojoModel;
-import models.pojo.LoginResponsePojoModel;
+import in.reqres.models.lombok.LoginBodyLombokModel;
+import in.reqres.models.lombok.LoginResponseLombokModel;
+import in.reqres.models.lombok.LoginWithoutPasswordBodyLombokModel;
+import in.reqres.models.lombok.MissingPasswordResponseModel;
+import in.reqres.models.pojo.LoginBodyPojoModel;
+import in.reqres.models.pojo.LoginResponsePojoModel;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import static helpers.CustomAllureListener.withCustomTemplates;
+import static in.reqres.helpers.CustomAllureListener.withCustomTemplates;
 import static io.qameta.allure.Allure.step;
 import static io.restassured.RestAssured.given;
 import static io.restassured.http.ContentType.JSON;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.hamcrest.Matchers.is;
-import static specs.LoginSpec.*;
+import static in.reqres.specs.LoginSpec.*;
 
 public class LoginExtendedTests {
 

@@ -1,10 +1,5 @@
-package tests.demowebshop;
+package com.tricentis.demowebshop;
 
-import com.codeborne.selenide.Configuration;
-import com.codeborne.selenide.logevents.SelenideLogger;
-import io.qameta.allure.selenide.AllureSelenide;
-import io.restassured.RestAssured;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.Cookie;
 
@@ -34,18 +29,24 @@ public class LoginTests extends TestBase {
     @Test
     void loginWithApiTest() {
         step("Get auth cookie by API and set it to browser ", () -> {
-            String authCookieKey = "NOPCOMMERCE.AUTH";
-            String authCookieValue = given()
-                    .contentType("application/x-www-form-urlencoded")
-                    .formParam("Email", login)
-                    .formParam("Password", password)
-                .when()
-                    .post("/login")
-                .then()
-                    .log().all()
-                    .statusCode(302)
-                    .extract()
-                    .cookie(authCookieKey);
+            String authCookieKey = null;
+            String authCookieValue = null;
+            try {
+                authCookieKey = "NOPCOMMERCE.AUTH";
+                authCookieValue = given()
+                        .contentType("application/x-www-form-urlencoded")
+                        .formParam("Email", login)
+                        .formParam("Password", password)
+                    .when()
+                        .post("/login")
+                    .then()
+                        .log().all()
+                        .statusCode(302)
+                        .extract()
+                        .cookie(authCookieKey);
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
 
             open("/favicon.ico");
             Cookie authCookie = new Cookie(authCookieKey, authCookieValue);

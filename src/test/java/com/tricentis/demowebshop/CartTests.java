@@ -1,4 +1,4 @@
-package tests.demowebshop;
+package com.tricentis.demowebshop;
 
 import org.junit.jupiter.api.Test;
 
@@ -12,16 +12,16 @@ public class CartTests extends TestBase {
         // TODO: move to API auth class
         String authCookieKey = "NOPCOMMERCE.AUTH";
         String authCookieValue = given()
-                .contentType("application/x-www-form-urlencoded")
-                .formParam("Email", login)
-                .formParam("Password", password)
-                .when()
-                .post("/login")
-                .then()
-                .log().all()
-                .statusCode(302)
-                .extract()
-                .cookie(authCookieKey);
+            .contentType("application/x-www-form-urlencoded")
+            .formParam("Email", login)
+            .formParam("Password", password)
+        .when()
+            .post("/login")
+        .then()
+            .log().all()
+            .statusCode(302)
+            .extract()
+            .cookie(authCookieKey);
 
         // TODO: get actual cart size
 

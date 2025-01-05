@@ -1,4 +1,4 @@
-package tests;
+package com.selenoid;
 
 import org.junit.jupiter.api.Test;
 
@@ -17,7 +17,7 @@ public class StatusTests {
     void checkTotal20() {
         get("https://selenoid.autotests.cloud/status")
                 .then()
-                .body("total", is(21));
+                .body("total", is(20));
     }
 
     @Test

@@ -1,4 +1,4 @@
-package tests.demowebshop;
+package com.tricentis.demowebshop;
 
 import com.codeborne.selenide.Configuration;
 import com.codeborne.selenide.logevents.SelenideLogger;
