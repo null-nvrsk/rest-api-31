@@ -29,24 +29,18 @@ public class LoginTests extends TestBase {
     @Test
     void loginWithApiTest() {
         step("Get auth cookie by API and set it to browser ", () -> {
-            String authCookieKey = null;
-            String authCookieValue = null;
-            try {
-                authCookieKey = "NOPCOMMERCE.AUTH";
-                authCookieValue = given()
-                        .contentType("application/x-www-form-urlencoded")
-                        .formParam("Email", login)
-                        .formParam("Password", password)
-                    .when()
-                        .post("/login")
-                    .then()
-                        .log().all()
-                        .statusCode(302)
-                        .extract()
-                        .cookie(authCookieKey);
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
+            String authCookieKey = "NOPCOMMERCE.AUTH";
+            String authCookieValue = given()
+                    .contentType("application/x-www-form-urlencoded")
+                    .formParam("Email", login)
+                    .formParam("Password", password)
+                .when()
+                    .post("/login")
+                .then()
+                    .log().all()
+                    .statusCode(302)
+                    .extract()
+                    .cookie(authCookieKey);
 
             open("/favicon.ico");
             Cookie authCookie = new Cookie(authCookieKey, authCookieValue);
